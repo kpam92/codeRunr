@@ -4,21 +4,13 @@ document.addEventListener('DOMContentLoaded', () => {
     lineNumbers: true
   });
   let runButton = document.getElementById('run');
-  runButton.onClick(run);
+  runButton.addEventListener('click', () => run(myCodeMirror))
 });
 
 
-function run() {
-  let textarea = document.getElementById('editor');
-  let code = textarea.text();
-  let functionToRun = putInFunction(code);
-  functionToRun();
-}
-
-function putInFunction(code) {
-  debugger;
-  let stuff = () => {
-    code
-  }
-  return stuff;
+function run(codemirror) {
+  let code = codemirror.getValue();
+  let value = eval(code);
+  let output = document.getElementById('output');
+  output.innerHTML = value;
 }
