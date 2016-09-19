@@ -4,7 +4,8 @@
   /* Set height, width, borders, and global font properties here */
   font-family: 'Inconsolata', monospace;
   height: 300px;
-  color: black;
+  color: #D6E9FF;
+  /*background: #1d262f;*/
 }
 
 /* PADDING */
@@ -17,14 +18,14 @@
 }
 
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
-  background-color: white; /* The little square between H and V scrollbars */
+  background-color: #1d262f; /* The little square between H and V scrollbars */
 }
 
 /* GUTTER */
 
 .CodeMirror-gutters {
-  border-right: 1px solid #ddd;
-  background-color: #f7f7f7;
+  border-right: 1px solid #273645;
+  background-color: #1d262f;
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
@@ -110,10 +111,10 @@
 .cm-link {text-decoration: underline;}
 .cm-strikethrough {text-decoration: line-through;}
 
-.cm-s-default .cm-keyword {color: #708;}
+.cm-s-default .cm-keyword {color: #90BEF3;}
 .cm-s-default .cm-atom {color: #219;}
 .cm-s-default .cm-number {color: #164;}
-.cm-s-default .cm-def {color: #00f;}
+.cm-s-default .cm-def {color: #67FECC;}
 .cm-s-default .cm-variable,
 .cm-s-default .cm-punctuation,
 .cm-s-default .cm-property,
@@ -152,7 +153,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 .CodeMirror {
   position: relative;
   overflow: hidden;
-  background: white;
+  background: #1d262f;
 }
 
 .CodeMirror-scroll {
