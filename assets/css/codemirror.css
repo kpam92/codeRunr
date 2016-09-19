@@ -2,7 +2,7 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Inconsolata', monospace;
   height: 300px;
   color: black;
 }
