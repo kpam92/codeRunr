@@ -140,20 +140,18 @@ def signup():
 
 @app.route('/logout')
 def logout():
-    """Logs the user out."""
     flash('You were logged out')
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-@app.route('/code', methods=['POST'])
+@app.route('/code', methods=['GET'])
 def add_message():
     if 'user_id' not in session:
         abort(401)
-    if request.form['text']:
-        db = get_db()
-        db.execute('''insert into snippets (title, code, pub_date, user_id)
-          values (?, ?, ?)''', (session['title'], request.form['code'],
-                                int(time.time()), session['user_id']))
-        db.commit()
-        flash('Your message was recorded')
+    db = get_db()
+    title = str('testing if code can be saved')
+    db.execute('''insert into snippets (title, code, pub_date, user_id)
+      values (?, ?, ?, ?)''', ('testing if code can be saved', str(request.url.split("=")[1]), int(time.time()), session['user_id']))
+    db.commit()
+    flash('Your message was recorded')
     return redirect(url_for('index'))

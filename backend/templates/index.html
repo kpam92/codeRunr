@@ -12,21 +12,10 @@
     <div id="editor">
     </div>
     <a id='run'>RUN</a>
+    <a href="{{ url_for('index') }}" id='save'>SAVE</a>
     <div id="output">
       <p id="outputText">
       </p>
     </div>
   </div>
-  <script>
-    function receiveCode(id) {
-      $.ajax({
-        method: 'GET',
-        url: '/getCode',
-        data: {id},
-        success: (code) => {
-          myCodeMirror.setValue(code)
-        }
-      })
-    }
-  </script>
 {% endblock %}
