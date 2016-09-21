@@ -1,5 +1,9 @@
 import os
+<<<<<<< HEAD
 import crypt
+=======
+import secrets, crypt
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
@@ -16,7 +20,11 @@ app.config.update(dict(
     USERNAME='admin',
     PASSWORD='default'
 ))
+<<<<<<< HEAD
 app.config.from_envvar('CODERNR_SETTINGS', silent=True)
+=======
+app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 
 
 def connect_db():
@@ -57,6 +65,7 @@ def close_db(error):
         g.sqlite_db.close()
 
 
+<<<<<<< HEAD
 # DATA CALLS FROM FRONTEND
 
 @app.route('/')
@@ -64,10 +73,14 @@ def index():
     return render_template('index.html')
 
 
+=======
+@app.route('/')
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 def show_snippets():
     db = get_db()
     cur = db.execute('select title from snippets order by id desc')
     snippets = cur.fetchall()
+<<<<<<< HEAD
     return render_template('index.html', snippets=snippets)
 
 
@@ -81,6 +94,21 @@ def add_snippet():
     db.commit()
     flash('New snippet was successfully posted')
     return redirect(url_for('index'))
+=======
+    return render_template('show_snippets.html', snippets=snippets)
+
+
+@app.route('/add', methods=['POST'])
+def add_entry():
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    db.execute('insert into snippets (title, text) values (?, ?)',
+               [request.form['title'], request.form['text']])
+    db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_snippets'))
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 
 def get_users():
     db = get_db()
@@ -88,8 +116,20 @@ def get_users():
     users = cur.fetchall()
     return users
 
+<<<<<<< HEAD
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
+=======
+def create_session_token():
+    token = secret.token_urlsave(32)
+    return token
+
+def crypt(password):
+    return crypt.crypt(password)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup:
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
     error = None
     if request.method == 'POST':
         users = get_users()
@@ -98,8 +138,13 @@ def signup():
                 error = 'Username has already been taken'
             elif request.form['password'].len() < 6:
                 error = 'Password too short'
+<<<<<<< HEAD
             else:
                 session['username'] = user.username
+=======
+            else
+                session['token'] = user.session_token
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
                 flash('You were logged in')
                 db = get_db()
                 username = request.form['username']
@@ -109,8 +154,13 @@ def signup():
                            [username, password_digest, full_name])
                 db.commit()
                 flash('New entry was successfully posted')
+<<<<<<< HEAD
                 return redirect(url_for('index'))
     return render_template('index.html', error=error)
+=======
+                return redirect(url_for('show_snippets'))
+    return render_template('login.html', error=error)
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -123,15 +173,24 @@ def login():
                 error = 'Invalid username'
             elif crypt(request.form['password']) != user.password_digest:
                 error = 'Invalid password'
+<<<<<<< HEAD
             else:
                 session['username'] = user.username
                 flash('You were logged in')
                 return redirect(url_for('index'))
     return render_template('index.html', error=error)
+=======
+            else
+                session['token'] = user.session_token
+                flash('You were logged in')
+                return redirect(url_for('show_snippets'))
+    return render_template('login.html', error=error)
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
 
 
 @app.route('/logout')
 def logout():
+<<<<<<< HEAD
     session.pop('username', None)
     flash('You were logged out')
     return redirect(url_for('index'))
@@ -139,3 +198,9 @@ def logout():
 
 if __name__ == "__main__":
     app.run()
+=======
+    user.session_token = create_session_token()
+    session.['token'] = ''
+    flash('You were logged out')
+    return redirect(url_for('show_snippets'))
+>>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
