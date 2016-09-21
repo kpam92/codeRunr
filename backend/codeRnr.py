@@ -63,12 +63,13 @@ def query_db(query, args=(), one=False):
 
 @app.route('/')
 def index():
-    if not g.user:
-        return redirect(url_for('login'))
-    code_menu = query_db('''
-        select snippets.title from snippets where snippets.user_id = ?
-    ''', [session['user_id']])
-    return render_template('index.html', menu_items=code_menu)
+    # if not g.user:
+    #     return redirect(url_for('login'))
+    # code_menu = query_db('''
+    #     select snippets.title from snippets where snippets.user_id = ?
+    # ''', [session['user_id']])
+    # return render_template('index.html', menu_items=code_menu)
+    return render_template('index.html')
 
 def get_code(id):
     code = query_db('''

@@ -1,22 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
   <div id="menu">
-    <a id='user-info'>Name</a>
-    <ul class='snippets-list'>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-      <li>Item 4</li>
-      <li>Item 5</li>
-    </ul>
-  </div>
+    <div id="inner-menu">
+      <div id='user-info'>Name</div>
+        <ul class='snippets-list'>
+          <li>Item 1</li>
+          <li>Item 2</li>
+          <li>Item 3</li>
+          <li>Item 4</li>
+          <li>Item 5</li>
+        </ul>
+      </div>
+    </div>
   <div>
     <div id="editor">
     </div>
-    <a id='run'> Run </a>
+    <a id='run'>RUN</a>
     <div id="output">
       <p id="outputText">
       </p>
     </div>
   </div>
-{% end block %}
+{% endblock %}
