@@ -12,6 +12,7 @@ href {
 #editor {
   width: 70%;
   float: left;
+  margin-top: 36px;
 }
 #output {
   width: 30%;
@@ -101,4 +102,17 @@ href {
   content: "";
   clear: both;
   display: block;
+}
+
+#code-name {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  margin-left: 37px;
+  margin-top: 5px;
+  color: #fff;
+}
+
+.log-button {
+  position: absolute;
 }

@@ -13,10 +13,10 @@
   <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
   <title>codeRunr</title>
   {% if g.user %}
-    <a href="{{ url_for('logout') }}">sign out</a>
+    <a class="log-button" href="{{ url_for('logout') }}">sign out</a>
   {% else %}
-    <a href="{{ url_for('signup') }}">sign up</a> |
-    <a href="{{ url_for('login') }}">sign in</a>
+    <a class="log-button" href="{{ url_for('signup') }}">sign up</a> |
+    <a class="log-button" href="{{ url_for('login') }}">sign in</a>
   {% endif %}
   {% block body %}{% endblock %}
 
