@@ -1,5 +1,5 @@
 body {
-  background: #333;
+  background: #cfcfcf;
   font-family: 'Inconsolata';
 }
 
@@ -11,6 +11,8 @@ body {
   width: 36%;
   float: right;
   border-left: 5px solid #ccc;
+  background: #333;
+  border-radius: 10px;
 
 }
 #output p {
@@ -22,7 +24,7 @@ body {
 #run {
   position: absolute;
   bottom: 11px;
-  left: 55%;
+  left: 53%;
   padding: 10px 22px;
   border: 2px solid #ccc;
   background: #fff;
@@ -31,26 +33,48 @@ body {
   cursor: pointer;
   border-radius: 8px;
   letter-spacing: 6px;
+  z-index: 4;
 }
 #run:hover {
   background-color: #ccc;
   /*color: #fff;*/
 }
 
-#menu ul{
+#menu {
+  /* display: table; */
   float: left;
-  width: 98px;
+  background: white;
+  height: 100vh;
+  margin-right: 11px;
+      border: 1px solid #b0a7a7;
+}
+
+#menu ul{
+  float: right;
+  width: 145px;
   list-style-type: none;
+  /* float: right; */
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+  border-bottom: 1px solid #b0a7a7;
+}
+#menu li{
+  font-size: 15px;
+    font-weight: lighter;
+    color: #9a1723;
+    padding: 10px 10px;
+    border-top: #b0a7a7 1px solid;
+}
+#menu li:hover{
+  background-color: #eee;
 }
 
 #user-info {
   text-align: center;
+  display: block;
 }
 
-#menu {
-  display: table;
-  float: left;
-}
 
 #inner-menu {
   display: table-cell;
