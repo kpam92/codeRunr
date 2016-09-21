@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     output.style.height = `${windowHeight}px`;
     let runButton = document.getElementById('run');
     let saveButton = document.getElementById('save');
+    let newButton = document.getElementById('new');
     runButton.addEventListener('click', () => run())
     saveButton.addEventListener('click', () => save())
+    newButton.addEventListener('click', () => newDoc())
   }
 });
 
@@ -27,12 +29,26 @@ function run() {
 }
 
 function save() {
-  let value = myCodeMirror.getValue();
-  $.ajax({
-    type: 'GET',
-    url: '/code',
-    data: {value},
-  });
+  if (window.openDoc) {
+    let value = myCodeMirror.getValue();
+    $.ajax({
+      type: 'GET',
+      url: '/editCode',
+      data: {value, id: window.openDoc},
+    });
+  } else {
+    let value = myCodeMirror.getValue();
+    $.ajax({
+      type: 'GET',
+      url: '/addCode',
+      data: {value},
+    });
+  }
+}
+
+function newDoc () {
+  window.openDoc = null;
+  myCodeMirror.setValue('');
 }
 
 
@@ -45,4 +61,11 @@ function receiveCode(id) {
       myCodeMirror.setValue(code)
     }
   });
+  window.openDoc = id;
+}
+
+function renameCode(id) {
+  $.ajax({
+    type: 'GET'
+  })
 }

@@ -4,7 +4,7 @@
     <a id='user-info'>Name</a>
     <ul class='snippets-list'>
       {% for snippet in menu_items %}
-        <li><a onClick="receiveCode({{snippet.id}})">{{ snippet.title }}</a></li>
+        <li><a onClick="receiveCode({{snippet.id}})">{{ snippet.title }} </a></li>
       {% endfor %}
     </ul>
   </div>
@@ -13,6 +13,7 @@
     </div>
     <a id='run'>RUN</a>
     <a href="{{ url_for('index') }}" id='save'>SAVE</a>
+    <a href="{{ url_for('index') }}" id='new'>NEW</a>
     <div id="output">
       <p id="outputText">
       </p>
