@@ -3,11 +3,9 @@
   <div id="menu">
     <a id='user-info'>Name</a>
     <ul class='snippets-list'>
-      <li>Item 1</li>
-      <li>Item 2</li>
-      <li>Item 3</li>
-      <li>Item 4</li>
-      <li>Item 5</li>
+      {% for snippet in menu_items %}
+        <li><a onClick="receiveCode({{snippet.id}})">{{ snippet.title }}</a></li>
+      {% endfor %}
     </ul>
   </div>
   <div>
@@ -19,4 +17,16 @@
       </p>
     </div>
   </div>
+  <script>
+    function receiveCode(id) {
+      $.ajax({
+        method: 'GET',
+        url: '/getCode',
+        params: id,
+        success: (code) => {
+          document.getElementById('editor').innerHTML = code
+        }
+      })
+    }
+  </script>
 {% endblock %}

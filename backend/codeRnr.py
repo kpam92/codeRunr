@@ -9,6 +9,7 @@
 import time
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
+import sys
 from datetime import datetime
 from flask import Flask, request, session, url_for, redirect, \
      render_template, abort, g, flash, _app_ctx_stack
@@ -65,15 +66,23 @@ def query_db(query, args=(), one=False):
 def index():
     if not g.user:
         return redirect(url_for('login'))
+    db = get_db()
+    db.execute('''insert into snippets (title, code, pub_date, user_id)
+      values (?, ?, ?, ?)''', ('SNIPPET TITLE', 'SNIPPET CODE',
+                            int(time.time()), session['user_id']))
+    db.commit()
     code_menu = query_db('''
-        select snippets.title from snippets where snippets.user_id = ?
+    select title, id from snippets where snippets.user_id = ?
     ''', [session['user_id']])
     return render_template('index.html', menu_items=code_menu)
 
-def get_code(id):
+@app.route('/getCode', methods=['GET'])
+def get_code():
+    id = sys.argv
     code = query_db('''
         select * from snippets where snippets.id = ?
-    ''', [id], one=True)
+    ''', [1], one=True)
+    print(id)
     return code
 
 @app.before_request
@@ -81,7 +90,6 @@ def before_request():
     g.user = None
     if 'user_id' in session:
         g.user = query_db('select * from user where id = ?', [session['user_id']], one=True)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -135,10 +143,22 @@ def signup():
             return redirect(url_for('login'))
     return render_template('signup.html', error=error)
 
-
 @app.route('/logout')
 def logout():
     """Logs the user out."""
     flash('You were logged out')
     session.pop('user_id', None)
     return redirect(url_for('login'))
+
+@app.route('/code', methods=['POST'])
+def add_message():
+    if 'user_id' not in session:
+        abort(401)
+    if request.form['text']:
+        db = get_db()
+        db.execute('''insert into snippets (title, code, pub_date, user_id)
+          values (?, ?, ?)''', (session['title'], request.form['code'],
+                                int(time.time()), session['user_id']))
+        db.commit()
+        flash('Your message was recorded')
+    return redirect(url_for('index'))
