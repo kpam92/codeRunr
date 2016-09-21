@@ -1,8 +1,14 @@
 body {
-  background: #cfcfcf;
-  font-family: 'Inconsolata';
+  background: #333333;
+;
+  font-family: 'Quicksand', sans-serif;
 }
-
+a {
+  text-decoration: none;
+}
+href {
+  color: black;
+}
 #editor {
   width: 70%;
   float: left;
@@ -20,11 +26,15 @@ body {
   font-size: 25px;
   color: #fff;
 }
-
-#run {
+.editor-buttons{
   position: absolute;
-  bottom: 11px;
-  left: 53%;
+  bottom: 19px;
+  left: 30%;
+
+}
+.editor-link {
+  position:relative;
+  float:left;
   padding: 10px 22px;
   border: 2px solid #ccc;
   background: #fff;
@@ -34,8 +44,10 @@ body {
   border-radius: 8px;
   letter-spacing: 6px;
   z-index: 4;
+  margin: 0px 35px;
+  color: black;
 }
-#run:hover {
+.editor-link:hover {
   background-color: #ccc;
   /*color: #fff;*/
 }
@@ -43,10 +55,11 @@ body {
 #menu {
   /* display: table; */
   float: left;
-  background: white;
+  background: #333333;
+;
   height: 100vh;
   margin-right: 11px;
-  border: 1px solid #b0a7a7;
+  /*border: 1px solid #b0a7a7;*/
   width: 300px;
 }
 
@@ -61,12 +74,12 @@ body {
 #menu li{
   font-size: 17px;
   font-weight: lighter;
-  color: #9a1723;
+  color: #fff;
   border-top: #b0a7a7 1px solid;
   padding: 23px 10px;
 }
 #menu li:hover{
-  background-color: #eee;
+  background-color: #606060;
 }
 
 #user-info {
@@ -88,7 +101,4 @@ body {
   content: "";
   clear: both;
   display: block;
-}
-.editor-link {
-  position: absolute;
 }
