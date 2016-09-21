@@ -4,11 +4,11 @@ body {
 }
 
 #editor {
-  width: 50%;
+  width: 70%;
   float: left;
 }
 #output {
-  width: 36%;
+  width: 30%;
   float: right;
   border-left: 5px solid #ccc;
   background: #333;
@@ -46,25 +46,24 @@ body {
   background: white;
   height: 100vh;
   margin-right: 11px;
-      border: 1px solid #b0a7a7;
+  border: 1px solid #b0a7a7;
+  width: 300px;
 }
 
 #menu ul{
-  float: right;
-  width: 145px;
   list-style-type: none;
-  /* float: right; */
   padding-right: 0;
   padding-left: 0;
   text-align: center;
   border-bottom: 1px solid #b0a7a7;
+  width: 100%;
 }
 #menu li{
-  font-size: 15px;
-    font-weight: lighter;
-    color: #9a1723;
-    padding: 10px 10px;
-    border-top: #b0a7a7 1px solid;
+  font-size: 17px;
+  font-weight: lighter;
+  color: #9a1723;
+  border-top: #b0a7a7 1px solid;
+  padding: 23px 10px;
 }
 #menu li:hover{
   background-color: #eee;
@@ -79,4 +78,17 @@ body {
 #inner-menu {
   display: table-cell;
   vertical-align: middle;
+}
+
+.editor-cont {
+  display: flex;
+}
+
+.editor-cont:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+.editor-link {
+  position: absolute;
 }

@@ -8,12 +8,12 @@
       {% endfor %}
     </ul>
   </div>
-  <div>
+  <div class="editor-cont">
     <div id="editor">
     </div>
-    <a id='run'>RUN</a>
-    <a href="{{ url_for('index') }}" id='save'>SAVE</a>
-    <a href="{{ url_for('index') }}" id='new'>NEW</a>
+    <a class="editor-link" id='run'>RUN</a>
+    <a class="editor-link" href="{{ url_for('index') }}" id='save'>SAVE</a>
+    <a class="editor-link" href="{{ url_for('index') }}" id='new'>NEW</a>
     <div id="output">
       <p id="outputText">
       </p>
