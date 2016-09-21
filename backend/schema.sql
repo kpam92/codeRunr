@@ -2,7 +2,6 @@ drop table if exists user;
 create table user (
   id integer primary key autoincrement,
   username text not null,
-  full_name text,
   email text not null,
   pw_hash text not null
 );

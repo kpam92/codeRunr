@@ -78,7 +78,7 @@ def get_code():
     codeId = int(str(url.split("=")[1]))
     # pdb.set_trace()
     code = query_db('select * from snippets where snippets.id = ?', [codeId], one=True)
-    return code['code']
+    return str(code['code'])
 
 @app.before_request
 def before_request():

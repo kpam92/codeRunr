@@ -61,7 +61,6 @@ function receiveCode(id) {
       myCodeMirror.setValue(code)
     }
   });
-  window.openDoc = id;
 }
 
 function renameCode(id) {

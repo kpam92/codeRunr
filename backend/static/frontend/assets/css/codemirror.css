@@ -113,15 +113,15 @@
 .cm-link {text-decoration: underline;}
 .cm-strikethrough {text-decoration: line-through;}
 
-.cm-s-default .cm-keyword {color: #90BEF3;}
+.cm-s-default .cm-keyword {color: #FCDE9C;}
 .cm-s-default .cm-atom {color: #fff;}
-.cm-s-default .cm-number {color: #59C9A5;}
-.cm-s-default .cm-def {color: #67FECC;}
+.cm-s-default .cm-number {color: #fff;}
+.cm-s-default .cm-def {color: #C42B2B;}
 .cm-s-default .cm-variable,
 .cm-s-default .cm-punctuation,
 .cm-s-default .cm-property,
 .cm-s-default .cm-operator {}
-.cm-s-default .cm-variable-2 {color: #5960DB;}
+.cm-s-default .cm-variable-2 {color: #D58936;}
 .cm-s-default .cm-variable-3 {color: #085;}
 .cm-s-default .cm-comment {color: #EDFFAB;}
 .cm-s-default .cm-string {color: #ccc;}
@@ -138,7 +138,7 @@
 
 .cm-s-default .cm-error {color: #f00;}
 .cm-invalidchar {color: #f00;}
-.cm-property {color: #52D1DC;}
+.cm-property {color: #D45113;}
 .CodeMirror-composing { border-bottom: 2px solid; }
 
 /* Default styles for common addons */
@@ -333,7 +333,7 @@ div.CodeMirror-dragcursors {
 
 /* our code goes here */
 .cm-variable {
-  color: #8CFA89;
+  color: #F2E93E;
 }
 
 /* IE7 hack to prevent it from returning funny offsetTops on the spans */
