@@ -8,9 +8,10 @@ create table user (
 );
 
 drop table if exists snippets;
-create table message (
+create table snippets (
   id integer primary key autoincrement,
-  author_id integer not null,
+  title text not null,
+  user_id integer not null,
   code text not null,
   pub_date integer
 );

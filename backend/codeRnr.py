@@ -1,5 +1,5 @@
 """
-    MiniTwit
+    codeRnr
     ~~~~~~~~
     A microblogging application written with Flask and sqlite3.
     :copyright: (c) 2015 by Armin Ronacher.
@@ -46,6 +46,7 @@ def init_db():
     db = get_db()
     with app.open_resource('schema.sql', mode='r') as f:
         db.cursor().executescript(f.read())
+    print(db)
     db.commit()
 
 
@@ -62,7 +63,25 @@ def query_db(query, args=(), one=False):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if not g.user:
+        return redirect(url_for('login'))
+    code_menu = query_db('''
+        select snippets.title from snippets where snippets.user_id = ?
+    ''', [session['user_id']])
+    return render_template('index.html', menu_items=code_menu)
+
+def get_code(id):
+    code = query_db('''
+        select * from snippets where snippets.id = ?
+    ''', [id], one=True)
+    return code
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'user_id' in session:
+        g.user = query_db('select * from user where user_id = ?', [session['user_id']], one=True)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -74,8 +93,7 @@ def login():
             username = ?''', [request.form['username']], one=True)
         if user is None:
             error = 'Invalid username'
-        elif not check_password_hash(user['pw_hash'],
-                                     request.form['password']):
+        elif not check_password_hash(user['pw_hash'], request.form['password']):
             error = 'Invalid password'
         else:
             flash('You were logged in')
@@ -84,31 +102,33 @@ def login():
     return render_template('login.html', error=error)
 
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if g.user:
         return redirect(url_for('index'))
     error = None
-    if not request.form['username']:
-        error = 'You have to enter a username'
-    elif not request.form['email'] or \
-            '@' not in request.form['email']:
-        error = 'You have to enter a valid email address'
-    elif not request.form['password']:
-        error = 'You have to enter a password'
-    elif request.form['password'] != request.form['password2']:
-        error = 'The two passwords do not match'
-    elif get_user_id(request.form['username']) is not None:
-        error = 'The username is already taken'
-    else:
-        db = get_db()
-        db.execute('''insert into user (
-          username, email, pw_hash) values (?, ?, ?)''',
-          [request.form['username'], request.form['email'],
-           generate_password_hash(request.form['password'])])
-        db.commit()
-        flash('You were successfully registered and can login now')
-        return redirect(url_for('login'))
+    if request.method == 'POST':
+        if not request.form['username']:
+            error = 'You have to enter a username'
+        elif not request.form['email'] or \
+                '@' not in request.form['email']:
+            error = 'You have to enter a valid email address'
+        elif not request.form['password']:
+            error = 'You have to enter a password'
+        elif request.form['password'] != request.form['password2']:
+            error = 'The two passwords do not match'
+        elif get_user_id(request.form['username']) is not None:
+            error = 'The username is already taken'
+        else:
+            db = get_db()
+            db.execute('''insert into user (
+              username, email, pw_hash) values (?, ?, ?)''',
+              [request.form['username'], request.form['email'],
+               generate_password_hash(request.form['password'])])
+            db.commit()
+            flash('You were successfully registered and can login now')
+            return redirect(url_for('login'))
+    return render_template('signup.html', error=error)
 
 
 @app.route('/logout')
