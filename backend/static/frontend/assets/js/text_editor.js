@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lineNumbers: true,
     autoCloseBrackets: true
   });
+  window.myCodeMirror = myCodeMirror;
   let windowHeight = window.innerHeight - 20;
   document.getElementById('editor').style.height = `${windowHeight}px`
   document.getElementById('output').style.height = `${windowHeight}px`

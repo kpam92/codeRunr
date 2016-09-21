@@ -7,6 +7,7 @@
 """
 
 import time
+import pdb
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
 import sys
@@ -66,11 +67,6 @@ def query_db(query, args=(), one=False):
 def index():
     if not g.user:
         return redirect(url_for('login'))
-    db = get_db()
-    db.execute('''insert into snippets (title, code, pub_date, user_id)
-      values (?, ?, ?, ?)''', ('SNIPPET TITLE', 'SNIPPET CODE',
-                            int(time.time()), session['user_id']))
-    db.commit()
     code_menu = query_db('''
     select title, id from snippets where snippets.user_id = ?
     ''', [session['user_id']])
@@ -78,11 +74,11 @@ def index():
 
 @app.route('/getCode', methods=['GET'])
 def get_code():
-    code = query_db('''
-        select * from snippets where snippets.id = ?
-    ''', [1], one=True)
-    print(id)
-    return code
+    url = request.url
+    codeId = int(str(url.split("=")[1]))
+    # pdb.set_trace()
+    code = query_db('select * from snippets where snippets.id = ?', [codeId], one=True)
+    return code['code']
 
 @app.before_request
 def before_request():

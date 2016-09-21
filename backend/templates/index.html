@@ -22,9 +22,9 @@
       $.ajax({
         method: 'GET',
         url: '/getCode',
-        params: id,
+        data: {id},
         success: (code) => {
-          document.getElementById('editor').innerHTML = code
+          myCodeMirror.setValue(code)
         }
       })
     }
