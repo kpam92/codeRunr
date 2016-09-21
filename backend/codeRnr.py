@@ -78,7 +78,6 @@ def index():
 
 @app.route('/getCode', methods=['GET'])
 def get_code():
-    id = sys.argv
     code = query_db('''
         select * from snippets where snippets.id = ?
     ''', [1], one=True)
