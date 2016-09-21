@@ -1,6 +1,5 @@
 import os
 import crypt
-import secrets, crypt
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
@@ -65,8 +64,6 @@ def close_db(error):
 def index():
     return render_template('index.html')
 
-
-@app.route('/')
 def show_snippets():
     db = get_db()
     cur = db.execute('select title from snippets order by id desc')
@@ -84,19 +81,6 @@ def add_snippet():
     db.commit()
     flash('New snippet was successfully posted')
     return redirect(url_for('index'))
-    return render_template('show_snippets.html', snippets=snippets)
-
-
-@app.route('/add', methods=['POST'])
-def add_entry():
-    if not session.get('logged_in'):
-        abort(401)
-    db = get_db()
-    db.execute('insert into snippets (title, text) values (?, ?)',
-               [request.form['title'], request.form['text']])
-    db.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('show_snippets'))
 
 def get_users():
     db = get_db()
@@ -104,17 +88,12 @@ def get_users():
     users = cur.fetchall()
     return users
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
 def create_session_token():
     token = secret.token_urlsave(32)
     return token
 
-def crypt(password):
-    return crypt.crypt(password)
-
 @app.route('/signup', methods=['GET', 'POST'])
-def signup:
+def signup():
     error = None
     if request.method == 'POST':
         users = get_users()
@@ -125,8 +104,6 @@ def signup:
                 error = 'Password too short'
             else:
                 session['username'] = user.username
-            else
-                session['token'] = user.session_token
                 flash('You were logged in')
                 db = get_db()
                 username = request.form['username']
@@ -138,8 +115,6 @@ def signup:
                 flash('New entry was successfully posted')
                 return redirect(url_for('index'))
     return render_template('index.html', error=error)
-                return redirect(url_for('show_snippets'))
-    return render_template('login.html', error=error)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -157,11 +132,6 @@ def login():
                 flash('You were logged in')
                 return redirect(url_for('index'))
     return render_template('index.html', error=error)
-            else
-                session['token'] = user.session_token
-                flash('You were logged in')
-                return redirect(url_for('show_snippets'))
-    return render_template('login.html', error=error)
 
 
 @app.route('/logout')
