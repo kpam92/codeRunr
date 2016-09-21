@@ -1,22 +1,16 @@
-drop table if exists users;
-create table users (
+drop table if exists user;
+create table user (
   id integer primary key autoincrement,
   username text not null,
-<<<<<<< HEAD
-  password text not null,
   full_name text,
-  image_url text,
-=======
-  password_digest text not null,
-  full_name text,
-  image_url text,
-  session_token text not null
->>>>>>> 9f5fa5ce9a72c574479fd02ffd04d5bb9277d787
+  email text not null,
+  pw_hash text not null
 );
 
 drop table if exists snippets;
-create table snippets (
+create table message (
   id integer primary key autoincrement,
-  title text not null,
-  body text not null
+  author_id integer not null,
+  code text not null,
+  pub_date integer
 );
