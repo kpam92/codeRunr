@@ -81,13 +81,13 @@ def get_code(id):
 def before_request():
     g.user = None
     if 'user_id' in session:
-        g.user = query_db('select * from user where user_id = ?', [session['user_id']], one=True)
+        g.user = query_db('select * from user where id = ?', [session['user_id']], one=True)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if g.user:
-        return redirect(url_for('timeline'))
+        return redirect(url_for('index'))
     error = None
     if request.method == 'POST':
         user = query_db('''select * from user where
@@ -98,9 +98,14 @@ def login():
             error = 'Invalid password'
         else:
             flash('You were logged in')
-            session['user_id'] = user['user_id']
-            return redirect(url_for('timeline'))
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
     return render_template('login.html', error=error)
+
+def get_user_id(username):
+    rv = query_db('select id from user where username = ?',
+                  [username], one=True)
+    return rv[0] if rv else None
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -137,4 +142,4 @@ def logout():
     """Logs the user out."""
     flash('You were logged out')
     session.pop('user_id', None)
-    return redirect(url_for('public_timeline'))
+    return redirect(url_for('login'))
