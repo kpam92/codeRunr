@@ -18,12 +18,6 @@
     };
   </script>
   <title>codeRunr</title>
-  {% if g.user %}
-    <a class="log-button" href="{{ url_for('logout') }}">sign out</a>
-  {% else %}
-    <a class="log-button" href="{{ url_for('signup') }}">sign up</a> |
-    <a class="log-button" href="{{ url_for('login') }}">sign in</a>
-  {% endif %}
   {% block body %}{% endblock %}
 
 </html>

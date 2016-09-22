@@ -137,8 +137,11 @@ def signup():
               [request.form['username'], request.form['email'],
                generate_password_hash(request.form['password'])])
             db.commit()
-            flash('You were successfully registered and can login now')
-            return redirect(url_for('login'))
+            flash('You were successfully registered')
+            user = query_db('''select * from user where
+                username = ?''', [request.form['username']], one=True)
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
     return render_template('signup.html', error=error)
 
 @app.route('/logout')
@@ -152,9 +155,8 @@ def add_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
-    title = str('testing if code can be saved')
     db.execute('''insert into snippets (title, code, pub_date, user_id)
-      values (?, ?, ?, ?)''', ('testing if code can be saved', str(request.form.get('value')), int(time.time()), session['user_id']))
+      values (?, ?, ?, ?)''', (str(request.form.get('title')), str(request.form.get('value')), int(time.time()), session['user_id']))
     db.commit()
     flash('code was saved')
     return redirect(url_for('index'))
@@ -165,17 +167,7 @@ def edit_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
-    db.execute('''update snippets set code = ? where id = ?''', (str(request.form.get('value')), str(request.form.get('id'))))
+    db.execute('''update snippets set title = ?, code = ? where id = ?''', (str(request.form.get('title')), str(request.form.get('value')), str(request.form.get('id'))))
     db.commit()
     flash('code was updated')
-    return redirect(url_for('index'))
-
-@app.route('/editTitle', methods=['PATCH'])
-def edit_title():
-    if 'user_id' not in session:
-        abort(401)
-    db = get_db()
-    db.execute('update snippets set title = ? where id = ?', (str(request.form.get('title')), str(request.form.get('id'))))
-    db.commit()
-    flash('title was updated')
     return redirect(url_for('index'))
