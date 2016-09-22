@@ -140,28 +140,3 @@ href {
   position: relative;
   top: -24px;
 }
-
-.sign-in-form {
-    position:absolute;
-    top: 50%;
-    left: 50%;
-    width:30em;
-    height:18em;
-    margin-top: -9em; /*set to a negative number 1/2 of your height*/
-    margin-left: -15em; /*set to a negative number 1/2 of your width*/
-    border: 1px solid rgba(51, 51, 51, 0.79);
-    background-color: rgba(243, 243, 243, 0.18);
-    text-align: center;
-}
-
-.initial-background {
-    background-image: url(http://res.cloudinary.com/dt5viyxyq/image/upload/v1474564459/blurred-gaussian-blur-minimalistic-light-background-wallpaper-wallpapers-images-computer_mqdnbp.jpg);
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-    margin-left: -8px;
-}
-
-dt {
-  margin-top: 20px;
-}
