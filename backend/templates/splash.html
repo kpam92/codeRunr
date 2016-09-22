@@ -2,16 +2,17 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
     <link rel="stylesheet" href="./static/frontend/assets/css/main.css" media="screen" title="no title">
     <title></title>
   </head>
-  <body class="initial-background">
+  <body style="background:#ccc;">
     <div class="splash-text">
-      <h1>codeRnr</h1>
-      <p>
-        codeRnr is a JavaScript interpreting and storing website. Users can sign up, login and view their recent code snippets, with an interpreter to see what the code does. Users can store code snippets and save them on our servers for later use. Start by signing up here. Its free!
+      <p class="codernr">
+        codeRnr
       </p>
-      <a href="{{ url_for('signup') }}">Enter App</a>
+      <img src="./static/frontend/assets/img/roadrunner_well.png" class="splash-icon"/>
+      <a class="enter" href="{{ url_for('signup') }}">Enter App</a>
     </div>
   </body>
 </html>

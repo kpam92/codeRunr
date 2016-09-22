@@ -160,7 +160,7 @@ dt {
   margin-top: 20px;
 }
 
-.splash-text {
+/*.splash-text {
   position: absolute;
   width: 50%;
   left: 25%;
@@ -196,7 +196,7 @@ dt {
 .splash-text a:hover {
   background-color: rgba(255, 255, 255, 0.3);
   color: #666;
-}
+}*/
 
 .sign-in-form {
   position: absolute;
@@ -272,4 +272,38 @@ dt {
 }
 .signout:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+.codernr {
+  font-family: 'Permanent Marker';
+  font-size: 100px;
+  left: 28%;
+  position: relative;
+  top: 267px;
+  margin-top: 0;
+  z-index: 1;
+  font-weight: 200;
+}
+
+.splash-icon {
+  width: 39%;
+  position: absolute;
+  top: 0;
+}
+
+.enter {
+  font-family: 'Permanent Marker';
+  font-size: 40px;
+  left: 28%;
+  position: relative;
+  top: 160px;
+  margin-top: 0;
+  z-index: 1;
+  font-weight: 200;
+  margin-left: 20px;
+  color: #170072;
+}
+
+.enter:hover {
+  color: #7fc8ff;
 }
