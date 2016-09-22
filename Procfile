@@ -1,1 +1,1 @@
-web: gunicorn backend/codeRnr.py
+web: gunicorn backend.codeRnr  --log-file -
