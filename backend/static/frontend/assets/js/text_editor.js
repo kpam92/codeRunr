@@ -34,14 +34,16 @@ function save() {
     $.ajax({
       type: 'GET',
       url: '/editCode',
-      data: {value, id: window.openDoc},
+      data: value.serialize(),
     });
   } else {
     let value = myCodeMirror.getValue();
     $.ajax({
-      type: 'GET',
+      type: 'POST',
       url: '/addCode',
-      data: {value},
+      data: {
+        'value': value
+      },
     });
   }
 }

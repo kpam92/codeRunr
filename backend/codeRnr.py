@@ -144,14 +144,14 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
 
-@app.route('/addCode', methods=['GET'])
+@app.route('/addCode', methods=['POST'])
 def add_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
     title = str('testing if code can be saved')
     db.execute('''insert into snippets (title, code, pub_date, user_id)
-      values (?, ?, ?, ?)''', ('testing if code can be saved', str(request.url.split("=")[1]), int(time.time()), session['user_id']))
+      values (?, ?, ?, ?)''', ('testing if code can be saved', str(request.form.get('value')), int(time.time()), session['user_id']))
     db.commit()
     flash('Your message was recorded')
     return redirect(url_for('index'))
