@@ -1,1 +1,1 @@
-web: gunicorn project:codeRnr
+web: gunicorn backend/codeRnr.py
