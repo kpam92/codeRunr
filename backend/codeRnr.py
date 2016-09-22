@@ -63,7 +63,7 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     return (rv[0] if rv else None) if one else rv
 
-@app.route('/')
+@app.route('/', methods=['PATCH', 'GET'])
 def index():
     if not g.user:
         return redirect(url_for('login'))
@@ -161,8 +161,7 @@ def edit_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
-    title = str('testing if code can be saved')
-    db.execute('''update snippets set code = ? where id = ?''', (str(request.form.get('title')), str(request.form.get('id'))))
+    db.execute('''update snippets set code = ? where id = ?''', (str(request.form.get('value')), str(request.form.get('id'))))
     db.commit()
     flash('code was updated')
     return redirect(url_for('index'))
