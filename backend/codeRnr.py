@@ -76,9 +76,8 @@ def index():
 def get_code():
     url = request.url
     codeId = int(str(url.split("=")[1]))
-    # pdb.set_trace()
     code = query_db('select * from snippets where snippets.id = ?', [codeId], one=True)
-    return str(code['code'])
+    return str(code['title'] + '/~=^md' + code['code'])
 
 @app.before_request
 def before_request():
@@ -153,17 +152,27 @@ def add_code():
     db.execute('''insert into snippets (title, code, pub_date, user_id)
       values (?, ?, ?, ?)''', ('testing if code can be saved', str(request.form.get('value')), int(time.time()), session['user_id']))
     db.commit()
-    flash('Your message was recorded')
+    flash('code was saved')
     return redirect(url_for('index'))
 
 
-@app.route('/editCode', methods=['GET'])
+@app.route('/editCode', methods=['PATCH'])
 def edit_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
     title = str('testing if code can be saved')
-    db.execute('''update snippets set code = ? where id = ?''', (str(request.url.split("=")[1]), str(request.url.split("=")[2])))
+    db.execute('''update snippets set code = ? where id = ?''', (str(request.form.get('title')), str(request.form.get('id'))))
     db.commit()
-    flash('Your message was recorded')
+    flash('code was updated')
+    return redirect(url_for('index'))
+
+@app.route('/editTitle', methods=['PATCH'])
+def edit_title():
+    if 'user_id' not in session:
+        abort(401)
+    db = get_db()
+    db.execute('update snippets set title = ? where id = ?', (str(request.form.get('title')), str(request.form.get('id'))))
+    db.commit()
+    flash('title was updated')
     return redirect(url_for('index'))

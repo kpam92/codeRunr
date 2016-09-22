@@ -7,15 +7,19 @@
         <li><a onClick="receiveCode({{snippet.id}})">{{ snippet.title }} </a></li>
       {% endfor %}
     </ul>
+    <div class='editor-buttons'>
+      <a class="editor-link" href="{{ url_for('index') }}" id='new'>NEW</a>
+      <a class="editor-link" href="{{ url_for('index') }}" id='save'>SAVE</a>
+      <a class="editor-link" id='run'>RUN</a>
+    </div>
   </div>
   <div class="editor-cont">
-    <h1 id="code-name">Code Name</h1>
-    <div id="editor">
+    <h1 id="code-name">code.name</h1>
+    <div id='code-name-editor'>
+      <input id="code-name-input" />
+      <a id="saveTitle">Save</a>
     </div>
-    <div class='editor-buttons'>
-    <a class="editor-link" href="{{ url_for('index') }}" id='new'>NEW</a>
-    <a class="editor-link" href="{{ url_for('index') }}" id='save'>SAVE</a>
-    <a class="editor-link" id='run'>RUN</a>
+    <div id="editor">
     </div>
     <div id="output">
       <p id="outputText">

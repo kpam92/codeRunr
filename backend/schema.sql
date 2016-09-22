@@ -3,7 +3,8 @@ create table user (
   id integer primary key autoincrement,
   username text not null,
   email text not null,
-  pw_hash text not null
+  pw_hash text not null,
+  image_url text
 );
 
 drop table if exists snippets;
