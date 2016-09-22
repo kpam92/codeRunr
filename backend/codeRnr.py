@@ -63,7 +63,11 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     return (rv[0] if rv else None) if one else rv
 
-@app.route('/', methods=['PATCH', 'GET'])
+@app.route('/')
+def splash():
+    return render_template('splash.html')
+
+@app.route('/home', methods=['PATCH', 'GET'])
 def index():
     if not g.user:
         return redirect(url_for('login'))
