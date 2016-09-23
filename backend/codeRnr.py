@@ -71,9 +71,7 @@ def splash():
 def index():
     if not g.user:
         return redirect(url_for('login'))
-    code_menu = query_db('''
-    select title, id from snippets where snippets.user_id = ?
-    ''', [session['user_id']])
+    code_menu = query_db('select title, id from snippets where snippets.user_id = ?', [session['user_id']])
     return render_template('index.html', menu_items=code_menu)
 
 @app.route('/getCode', methods=['GET'])
