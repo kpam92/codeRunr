@@ -66,7 +66,9 @@ function receiveCode(id) {
   $.ajax({
     type: 'GET',
     url: '/getCode',
-    data: {id},
+    data: {
+      'id': id
+    },
     success: (code) => {
       [title, code] = code.split('/~=^md');
       myCodeMirror.setValue(code)
