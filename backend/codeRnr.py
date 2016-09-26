@@ -8,6 +8,8 @@
 
 import time
 import pdb
+import os
+import psycopg2
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
 import sys
@@ -16,25 +18,13 @@ from flask import Flask, request, session, url_for, redirect, \
      render_template, abort, g, flash, _app_ctx_stack
 from werkzeug import check_password_hash, generate_password_hash
 
-
-# configuration
-DATABASE = '/tmp/codernr.db'
-PER_PAGE = 30
-DEBUG = True
-SECRET_KEY = 'development key'
-
 # create our little application :)
 app = Flask(__name__)
-app.config.from_object(__name__)
-app.config.from_envvar('CODERNR_SETTINGS', silent=True)
+app.config.from_object(os.environ['APP_SETTINGS'])
 
 
 def get_db():
-    top = _app_ctx_stack.top
-    if not hasattr(top, 'sqlite_db'):
-        top.sqlite_db = sqlite3.connect(app.config['DATABASE'])
-        top.sqlite_db.row_factory = sqlite3.Row
-    return top.sqlite_db
+    return psycopg2.connect("dbname = 'codernr_dev' host='localhost'")
 
 
 @app.teardown_appcontext
@@ -45,9 +35,9 @@ def close_database(exception):
 
 
 def init_db():
-    db = get_db()
+    db = get_db().cursor()
     with app.open_resource('schema.sql', mode='r') as f:
-        db.cursor().executescript(f.read())
+        db.execute(f.read())
     print(db)
     db.commit()
 
@@ -58,8 +48,12 @@ def initdb_command():
     print('Initialized the database.')
 
 
-def query_db(query, args=(), one=False):
-    cur = get_db().execute(query, args)
+def query_db(query, query_args=(), one=False):
+    str_query_args = []
+    for arg in query_args:
+        str_query_args.append(str(arg))
+    cur = get_db().cursor()
+    cur.execute(query, str_query_args)
     rv = cur.fetchall()
     return (rv[0] if rv else None) if one else rv
 
@@ -71,21 +65,21 @@ def splash():
 def index():
     if not g.user:
         return redirect(url_for('login'))
-    code_menu = query_db('select title, id from snippets where snippets.user_id = ?', [session['user_id']])
+    code_menu = query_db('SELECT title, id FROM snippets WHERE snippets.user_id = %s', [session['user_id']])
     return render_template('index.html', menu_items=code_menu)
 
 @app.route('/getCode', methods=['GET'])
 def get_code():
     url = request.url
     codeId = int(str(url.split("=")[1]))
-    code = query_db('select * from snippets where snippets.id = ?', [codeId], one=True)
-    return str(code['title'] + '/~=^md' + code['code'])
+    code = query_db("SELECT * FROM snippets WHERE snippets.id = %s", [codeId], one=True)
+    return str(code[1] + '/~=^md' + code[3])
 
 @app.before_request
 def before_request():
     g.user = None
     if 'user_id' in session:
-        g.user = query_db('select * from user where id = ?', [session['user_id']], one=True)
+        g.user = query_db('SELECT * FROM users WHERE id = %s', [session['user_id']], one=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -93,20 +87,19 @@ def login():
         return redirect(url_for('index'))
     error = None
     if request.method == 'POST':
-        user = query_db('''select * from user where
-            username = ?''', [request.form['username']], one=True)
+        user = query_db('''SELECT * FROM users WHERE username = %s''', [request.form['username']], one=True)
         if user is None:
             error = 'Invalid username'
-        elif not check_password_hash(user['pw_hash'], request.form['password']):
+        elif not check_password_hash(user[3], request.form['password']):
             error = 'Invalid password'
         else:
             flash('You were logged in')
-            session['user_id'] = user['id']
+            session['user_id'] = user[0]
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
 
 def get_user_id(username):
-    rv = query_db('select id from user where username = ?',
+    rv = query_db("""SELECT id FROM users WHERE username = %s""",
                   [username], one=True)
     return rv[0] if rv else None
 
@@ -130,15 +123,13 @@ def signup():
             error = 'The username is already taken'
         else:
             db = get_db()
-            db.execute('''insert into user (
-              username, email, pw_hash) values (?, ?, ?)''',
+            db.cursor().execute('''INSERT INTO users (username, email, pw_hash) values (%s, %s, %s)''',
               [request.form['username'], request.form['email'],
                generate_password_hash(request.form['password'])])
             db.commit()
             flash('You were successfully registered')
-            user = query_db('''select * from user where
-                username = ?''', [request.form['username']], one=True)
-            session['user_id'] = user['id']
+            user = query_db('''SELECT * FROM users WHERE username = %s''', [request.form['username']], one=True)
+            session['user_id'] = user[0]
             return redirect(url_for('index'))
     return render_template('signup.html', error=error)
 
@@ -153,8 +144,8 @@ def add_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
-    db.execute('''insert into snippets (title, code, pub_date, user_id)
-      values (?, ?, ?, ?)''', (str(request.form.get('title')), str(request.form.get('value')), int(time.time()), session['user_id']))
+    db.cursor().execute('''INSERT INTO snippets (title, code, user_id)
+      values (%s, %s, %s)''', (str(request.form.get('title')), str(request.form.get('value')), session['user_id']))
     db.commit()
     flash('code was saved')
     return redirect(url_for('index'))
@@ -165,7 +156,7 @@ def edit_code():
     if 'user_id' not in session:
         abort(401)
     db = get_db()
-    db.execute('''update snippets set title = ?, code = ? where id = ?''', (str(request.form.get('title')), str(request.form.get('value')), str(request.form.get('id'))))
+    db.cursor().execute('''UPDATE snippets SET title = %s, code = %s WHERE id = %s''', (str(request.form.get('title')), str(request.form.get('value')), str(request.form.get('id'))))
     db.commit()
     flash('code was updated')
     return redirect(url_for('index'))

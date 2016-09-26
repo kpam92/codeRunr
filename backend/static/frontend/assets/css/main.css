@@ -287,8 +287,8 @@ dt {
 
 .splash-icon {
   width: 39%;
-  position: absolute;
-  top: 0;
+  position: fixed;
+  bottom: -7%;
 }
 
 .enter {
