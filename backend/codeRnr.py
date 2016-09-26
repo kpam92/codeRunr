@@ -1,11 +1,3 @@
-"""
-    codeRnr
-    ~~~~~~~~
-    A microblogging application written with Flask and sqlite3.
-    :copyright: (c) 2015 by Armin Ronacher.
-    :license: BSD, see LICENSE for more details.
-"""
-
 import time
 import pdb
 import os
