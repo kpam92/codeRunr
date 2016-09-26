@@ -1,17 +1,13 @@
-drop table if exists user;
-create table user (
-  id integer primary key autoincrement,
-  username text not null,
-  email text not null,
-  pw_hash text not null,
-  image_url text
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username varchar(30) not null,
+  email varchar(50) not null,
+  pw_hash varchar(255) not null
 );
 
-drop table if exists snippets;
-create table snippets (
-  id integer primary key autoincrement,
-  title text not null,
-  user_id integer not null,
-  code text not null,
-  pub_date integer
+CREATE TABLE snippets (
+  id SERIAL PRIMARY KEY,
+  title varchar(80) not null,
+  user_id int not null,
+  code varchar(255) not null
 );

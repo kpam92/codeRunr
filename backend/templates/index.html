@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
   <div id="menu">
-    <a id='user-info'>Hey, {{ g.user.username }}</a>
+    <a id='user-info'>Hey, {{ g.user[1] }}</a>
     <a class="log-button signout" href="{{ url_for('logout') }}">sign out</a>
     <ul class='snippets-list'>
       {% for snippet in menu_items %}
-        <li><a onClick="receiveCode({{snippet.id}})">{{ snippet.title }} </a></li>
+        <li><a onClick="receiveCode({{snippet[1]}})">{{ snippet[0] }} </a></li>
       {% endfor %}
     </ul>
     <div class='editor-buttons'>

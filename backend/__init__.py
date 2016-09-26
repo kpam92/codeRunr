@@ -1,1 +1,1 @@
-from codeRnr import app
+from codeRnr import app, db
