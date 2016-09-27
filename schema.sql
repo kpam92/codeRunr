@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   username varchar(30) not null,
@@ -5,6 +6,7 @@ CREATE TABLE users (
   pw_hash varchar(255) not null
 );
 
+DROP TABLE IF EXISTS snippets;
 CREATE TABLE snippets (
   id SERIAL PRIMARY KEY,
   title varchar(80) not null,
