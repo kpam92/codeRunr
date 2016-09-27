@@ -48,6 +48,8 @@ def initdb_command():
     print('Initialized the database.')
 
 
+initdb_command()
+
 def query_db(query, query_args=(), one=False):
     str_query_args = []
     for arg in query_args:
