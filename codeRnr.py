@@ -1,6 +1,7 @@
 import time
 import pdb
 import os
+import urlparse
 import psycopg2
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
@@ -16,7 +17,14 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 
 def get_db():
-    return psycopg2.connect("dbname = 'd2v507p6853v9t' host='ec2-54-243-201-3.compute-1.amazonaws.com/'")
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    return psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
 
 
 @app.teardown_appcontext
