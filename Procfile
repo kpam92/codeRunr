@@ -1,1 +1,1 @@
-web: gunicorn backend/codeRnr:app
+web: gunicorn python:backend/codeRnr
