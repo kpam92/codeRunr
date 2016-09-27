@@ -18,7 +18,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 def get_db():
     urlparse.uses_netloc.append("postgres")
-    url = urlparse.urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
     return psycopg2.connect(
         database=url.path[1:],
         user=url.username,
