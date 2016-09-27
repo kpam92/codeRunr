@@ -27,9 +27,9 @@ def close_database(exception):
 
 
 def init_db():
-    db = get_db().cursor()
+    db = get_db()
     with app.open_resource('schema.sql', mode='r') as f:
-        db.execute(f.read())
+        db.cursor().execute(f.read())
     print(db)
     db.commit()
 
