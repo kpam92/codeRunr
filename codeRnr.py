@@ -17,7 +17,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 
 def get_db():
-    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    url = urlparse.urlparse(app.config['SQLALCHEMY_DATABASE_URI'])
     return psycopg2.connect(
         database=url.path[1:],
         user=url.username,
