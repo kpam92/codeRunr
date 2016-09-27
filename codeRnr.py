@@ -16,7 +16,7 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 
 def get_db():
-    return psycopg2.connect("dbname = 'codernr_dev' host='localhost'")
+    return psycopg2.connect("dbname = 'd2v507p6853v9t' host='http://ec2-54-243-201-3.compute-1.amazonaws.com/'")
 
 
 @app.teardown_appcontext
