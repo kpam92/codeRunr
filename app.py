@@ -1,1 +1,1 @@
-import codeRnr
+from codeRnr import app

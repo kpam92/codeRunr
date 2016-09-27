@@ -1,6 +1,7 @@
 import time
 import pdb
 import os
+import urlparse
 import psycopg2
 from sqlite3 import dbapi2 as sqlite3
 from hashlib import md5
@@ -16,7 +17,15 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 
 
 def get_db():
-    return psycopg2.connect("dbname = 'codernr_dev' host='localhost'")
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(os.environ['DATABASE_URL'])
+    return psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
 
 
 @app.teardown_appcontext
@@ -39,6 +48,8 @@ def initdb_command():
     init_db()
     print('Initialized the database.')
 
+
+initdb_command()
 
 def query_db(query, query_args=(), one=False):
     str_query_args = []
