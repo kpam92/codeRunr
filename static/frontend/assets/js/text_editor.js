@@ -62,6 +62,13 @@ function newDoc () {
 }
 
 
+function guestSignOn() {
+  document.getElementById('login-username').value = 'guest';
+  document.getElementById('login-password').value = 'password';
+  document.getElementById('login-submit').click();
+}
+
+
 function receiveCode(id) {
   $.ajax({
     type: 'GET',
