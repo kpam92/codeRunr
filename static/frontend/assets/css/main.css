@@ -315,3 +315,17 @@ dt {
 .enter:hover {
   color: #7fc8ff;
 }
+
+.guest {
+  border: 1px solid #333;
+  padding: 7px 15px;
+  float: left;
+  position: absolute;
+  bottom: 11px;
+  right: 10px;
+}
+.guest:hover {
+  background: rgba(255, 255, 255, 0.3);
+  color: #666;
+  cursor: pointer;
+}
